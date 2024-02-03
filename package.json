@@ -11,9 +11,8 @@
     "url": "git+https://github.com/alexander-hagen/node-api-bitrue.git"
   },
   "keywords": [
-    "nodejs",
-    "websocket",
-    "bitrue"
+    "bitrue",
+    "tradebots.nl"
   ],
   "author": "Alexander Hagen",
   "license": "ISC",
