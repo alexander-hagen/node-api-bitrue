@@ -1,9 +1,5 @@
 # node-api-bitrue
 
-**WARNING: Due to lack of funds on Bitrue, only market data is available.**
-
-Sponsorship of USD 10-15 will be needed to implement ordering API's. All donations are welcome and are sent directly to my Bitrue account:
-
 | Asset         | Deposit Address                            |
 | :------------ | :----------------------------------------- |
 | BTR (ERC-20)  | 0xc2fe1b83505609056fad3f341202b214b16604f8 |
