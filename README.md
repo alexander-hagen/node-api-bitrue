@@ -2,14 +2,6 @@
 
 **WARNING: Due to lack of funds on Bitrue, only market data is available.**
 
-Sponsorship of USD 10-15 will be needed to implement ordering API's. All donations are welcome and are sent directly to my Bitrue account:
-
-| Asset         | Deposit Address                            |
-| :------------ | :----------------------------------------- |
-| BTR (ERC-20)  | 0xc2fe1b83505609056fad3f341202b214b16604f8 |
-| USDT (ERC-20) | 0xc2fe1b83505609056fad3f341202b214b16604f8 |
-| BTC (BTC)     | 1HrcoDh8ZvzCov1dWQ9mw4Fo9vCycvpgNH         |
-
 Non-official implementation of Bitrue's API's. Developed for personal use.
 
 For support on using the API's or development issues, please refer to the official API documentation. For questions regarding this package, please consult the code first.
