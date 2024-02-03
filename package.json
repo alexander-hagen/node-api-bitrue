@@ -1,0 +1,37 @@
+{
+  "name": "api-bitrue",
+  "version": "0.6.14",
+  "description": "Non-official implementation of Bitrue's API's",
+  "main": "index.js",
+  "keywords": [
+    "bitrue",
+    "api",
+    "axios",
+    "REST",
+    "socket"
+  ],
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" "
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexander-hagen/node-api-bitrue.git"
+  },
+  "dependencies": {
+    "axios": "^0.27.2",
+    "pako": "^2.1.0",
+    "ws": "^8.16.0"
+  },
+  "author": "Alexander Hagen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alexander-hagen/node-api-bitrue/issues"
+  },
+  "homepage": "https://github.com/alexander-hagen/node-api-bitrue#readme",
+  "engines": {
+    "node": ">= 16.x.x"
+  }
+}
