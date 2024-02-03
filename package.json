@@ -1,6 +1,6 @@
 {
-  "name": "api-bitrue",
-  "version": "0.6.15",
+  "name": "node-api-bitrue",
+  "version": "0.6.14",
   "description": "Non-official implementation of Bitrue's API's. Developed for personal use.",
   "main": "index.js",
   "scripts": {
