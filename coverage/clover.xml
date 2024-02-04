@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1707054427149" clover="3.2.0">
-  <project timestamp="1707054427150" name="All files">
+<coverage generated="1707055562505" clover="3.2.0">
+  <project timestamp="1707055562506" name="All files">
     <metrics statements="738" coveredstatements="295" conditionals="34" coveredconditionals="29" methods="64" coveredmethods="17" elements="836" coveredelements="341" complexity="0" loc="738" ncloc="738" packages="2" files="4" classes="4"/>
     <package name="node-api-bitrue">
       <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
