@@ -39,7 +39,7 @@ When required, and if not set, timestamp parameters are automatically set by the
 | :----                   | :---- |
 | getExchangeInfo         | |
 | getServerTime           | |
-| getConnectivity         | |
+| sendPing                | |
 
 ## __PRIVATE API__
 
