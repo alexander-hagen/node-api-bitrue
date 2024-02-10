@@ -68,9 +68,10 @@ describe('User Data Steams WebSocket', () => {
       token=listenkey.data.listenKey;
       accountAPI=new bitrue.sockets.accountApi({ "apikey": apikey, "secret": secret, "name": "account" }, token);
     };
+    await waitForConnection(accountAPI);
     await streamAPI.setHandler('executionReport', (method,data,symbol,stamp) => { eventHandler(method); });
     await streamAPI.setHandler('BALANCE', (method,data,symbol,stamp) => { eventHandler(method); });
-    return waitForConnection(accountAPI);
+    return;
   });
 
   test('Test subscribeOrderUpdates() function', async () => {
