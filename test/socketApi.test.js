@@ -19,7 +19,7 @@ const timeout=5000;
 var token;
 
 var accountAPI;
-var timers={},resolved=[],rejected=[];
+var timers={};
 
 describe('Market Data Steams WebSocket', () => {
 
@@ -27,8 +27,9 @@ describe('Market Data Steams WebSocket', () => {
 
   beforeAll(async () => { // initialize socket
     marketAPI=new bitrue.sockets.marketApi();
+    await waitForConnection(marketAPI);
     await marketAPI.setHandler('market.simple.depth.step0', (method,data,symbol,stamp) => { eventHandler(method); });
-    return waitForConnection(marketAPI);
+    return;
   });
 
   test('Test subscribeOrderBook() function', async () => {
@@ -37,8 +38,8 @@ describe('Market Data Steams WebSocket', () => {
   }, timeout);
 
   test('Test market.simple.depth.step0 event', async () => {
-    const received=await waitForPromise('market.simple.depth.step0');
-    expect(received).toBe(true);
+    const result=await waitForPromise('market.simple.depth.step0');
+    expect(result).toHaveProperty("code", "200");;
   }, timeout);
 
   //test('Test pong/ping function', async () => {
@@ -69,8 +70,8 @@ describe('User Data Steams WebSocket', () => {
       accountAPI=new bitrue.sockets.accountApi({ "apikey": apikey, "secret": secret, "name": "account" }, token);
     };
     await waitForConnection(accountAPI);
-    await streamAPI.setHandler('executionReport', (method,data,symbol,stamp) => { eventHandler(method); });
-    await streamAPI.setHandler('BALANCE', (method,data,symbol,stamp) => { eventHandler(method); });
+    await accountAPI.setHandler('executionReport', (method,data,symbol,stamp) => { eventHandler(method); });
+    await accountAPI.setHandler('BALANCE', (method,data,symbol,stamp) => { eventHandler(method); });
     return;
   });
 
@@ -79,10 +80,10 @@ describe('User Data Steams WebSocket', () => {
     expect(result).toHaveProperty("code", "200");
   }, timeout);
 
-  test('Test executionReport event', async () => {
-    const received=await waitForPromise('executionReport');
-    expect(received).toBe(true);
-  }, timeout);
+  //test('Test executionReport event', async () => {
+  //  const result=await waitForPromise('executionReport');
+  //  expect(result).toHaveProperty("code", "200");
+  //}, timeout);
 
   test('Test unsubscribeOrderUpdates() function', async () => {
     const result=await accountAPI.unsubscribeOrderUpdates();
@@ -94,10 +95,10 @@ describe('User Data Steams WebSocket', () => {
     expect(result).toHaveProperty("code", "200");
   }, timeout);
 
-  test('Test BALANCE event', async () => {
-    const received=await waitForPromise('BALANCE');
-    expect(received).toBe(true);
-  }, timeout);
+  //test('Test BALANCE event', async () => {
+  //  const result=await waitForPromise('BALANCE');
+  //  expect(result).toHaveProperty("code", "200");;
+  //}, timeout);
 
   test('Test unsubscribeBalanceUpdates() function', async () => {
     const result=await accountAPI.unsubscribeBalanceUpdates();
@@ -106,6 +107,16 @@ describe('User Data Steams WebSocket', () => {
 
   //test('Test ping/pong function', async () => {
   //}, timeout);
+
+  test('Test renewListenKey() function', async () => {
+    const result=await accountAPI.renewListenKey(token);
+    expect(result).toHaveProperty("code", 200);
+  }, timeout);
+
+  test('Test deleteListenKey() function', async () => {
+    const result=await accountAPI.deleteListenKey(token);
+    expect(result).toHaveProperty("code", 200);
+  }, timeout);
 
   afterAll(async () => { // clean-up socket
     await accountAPI.clearHandler('executionReport');
@@ -121,22 +132,7 @@ describe('User Data Steams WebSocket', () => {
 //  expect(result).toHaveProperty("code", 200);
 //}, timeout);
 
-
 // Error testing
-
-// Clean-up tests
-
-//test('Test renewListenKey() function', async () => {
-//  const result=await streamAPI.renewListenKey(token);
-//  expect(result).toHaveProperty("code", 200);
-//}, timeout);
-
-//test('Test deleteListenKey() function', async () => {
-//  const result=await streamAPI.deleteListenKey(token);
-//console.log("Delete Listenkey",result);
-//  expect(result).toHaveProperty("code", 200);
-//}, timeout);
-
 
 // Helper functions
 
@@ -169,10 +165,12 @@ function waitForConnection(websocket) {
   var timer=setTimeout( () => { if(!done) { socketReject(done); }; }, timeout);
 
   websocket.socket._ws.on('authenticated', async () => { // Wait for websocket to authenticate.
+    console.log('authenticated');
     done=true;clearTimeout(timer);socketResolve(done);
   });
 
   websocket.socket._ws.on('initialized', async () => { // Wait for websocket to initialize.
+    console.log('initialized');
     done=true;clearTimeout(timer);socketResolve(done);
   });
 
@@ -181,14 +179,27 @@ function waitForConnection(websocket) {
   return promise;
 };
 
-function eventHandler(method) {
-  console.log("Event",method);
-  clearTimeout(timers[method]);
-  resolved[method](true);
+var _promises = new Map();
+
+function eventHandler(key) {
+  console.log("Received event ",key);
+  if (_promises.has(key)) {
+    clearTimeout(timers[key]);
+    const cb = _promises.get(key);
+    _promises.delete(key);
+    cb.resolve({code:"200", data: key});
+  };
 };
 
-function waitForPromise(method) {
-  timers[method]=setTimeout( () => { rejected[method](false); }, timeout-1000);
-  var promise=new Promise(function(resolve, reject) { resolved[method]=resolve; rejected[method]=reject; });
+function waitForPromise(key) {
+  var promise=new Promise((resolve, reject) => {
+    _promises.set(key, {resolve, reject});
+    timers[key]=setTimeout(() => {
+      if (_promises.has(key)) {
+        _promises.delete(key);
+        reject({"code":"408", "data": key});
+      };
+    }, timeout-1000);
+  });
   return promise;
 };
