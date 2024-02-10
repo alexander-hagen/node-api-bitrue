@@ -17,9 +17,9 @@ jobs:
           node-version: 16
       - run: npm ci
       - run: npm test
-         env:
-           MY_API_KEY: ${{secrets.my_api_key}}
-           MY_API_SECRET: ${{secrets.my_api_secret}} 
+        env:
+          MY_API_KEY: ${{secrets.my_api_key}}
+          MY_API_SECRET: ${{secrets.my_api_secret}} 
 
   publish-npm:
     needs: build
