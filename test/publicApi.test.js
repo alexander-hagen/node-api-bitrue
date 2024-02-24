@@ -72,23 +72,21 @@ test('Test sendPing() function', async () => {
 
 test('Test Error: 412 (-1102) Mandatory parameter is missing or illegal.', async () => {
   const options={ };
-  const code=412, reason=-1102;
   try {
     await publicAPI.getLastPrice(options);
     expect(true).toBe(false);
   } catch (err) {
-    expect(checkError(err,code,reason)).toBe(true);
+    expect(err.code == 412 && err.reason == -1102).toBeTruthy();
   };
 }, timeout);
 
 test('Test Error: 412 (-1121) Invalid symbol', async () => {
   const options={ symbol: "!@#$%^" };
-  const code=412, reason=-1121;
   try {
     await publicAPI.getLastPrice(options);
     expect(true).toBe(false);
   } catch (err) {
-    expect(checkError(err,code,reason)).toBe(true);
+    expect(err.code === 412 && err.reason === -1121).toBeTruthy();
   };
 }, timeout);
 
