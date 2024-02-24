@@ -21,7 +21,7 @@ var token;
 var accountAPI;
 var timers={};
 
-describe('Market Data Steams WebSocket', () => {
+describe('Market Data Streams WebSocket', () => {
 
   var marketAPI;
 
@@ -57,7 +57,7 @@ describe('Market Data Steams WebSocket', () => {
 
 });
 
-describe('User Data Steams WebSocket', () => {
+describe('User Data Streams WebSocket', () => {
 
   var streamAPI,accountAPI,token;
 
