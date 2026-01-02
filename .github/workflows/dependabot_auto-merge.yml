@@ -12,11 +12,10 @@ permissions:
 jobs:
   dependabot-auto-merge:
     runs-on: ubuntu-latest
-
-    # Guard: only auto-merge Dependabot PRs
     if: >
-      github.event_name == 'pull_request' &&
-      github.actor == 'dependabot[bot]'
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'pull_request' &&
+       github.actor == 'dependabot[bot]')
 
     steps:
       - name: Enable auto-merge for Dependabot PR
